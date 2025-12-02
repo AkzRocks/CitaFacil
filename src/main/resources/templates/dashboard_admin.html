@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout :: head}"></head>
+
+<body>
+
+    <nav th:replace="~{layout :: navbar}"></nav>
+
+    <div class="container mt-4">
+        <h2>Panel de Administración</h2>
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-header">Doctores</div>
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${stats.totalDoctors}">0</h5>
+                        <p class="card-text">Doctores registrados</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-header">Pacientes</div>
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${stats.totalPatients}">0</h5>
+                        <p class="card-text">Pacientes registrados</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-warning mb-3">
+                    <div class="card-header">Citas</div>
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${stats.totalAppointments}">0</h5>
+                        <p class="card-text">Citas totales</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Aquí se pueden agregar más gráficos con Chart.js -->
+    </div>
+
+    <div th:replace="~{layout :: footer}"></div>
+
+</body>
+
+</html>

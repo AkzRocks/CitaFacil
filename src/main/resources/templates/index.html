@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout :: head}"></head>
+
+<body>
+
+    <nav th:replace="~{layout :: navbar}"></nav>
+
+    <div>
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="container">
+                <h1 class="hero-title">Tu Salud, Nuestra Prioridad</h1>
+                <p class="hero-subtitle">Gestiona tus citas médicas de forma rápida, segura y desde la comodidad de tu
+                    hogar.</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a th:href="@{/login}" class="btn btn-hero">Iniciar Sesión</a>
+                    <a th:href="@{/register}"
+                        class="btn btn-outline-light btn-lg rounded-pill px-4 fw-bold">Registrarse</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="container mb-5">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
+                        <h3>Citas al Instante</h3>
+                        <p class="text-muted">Olvídate de las largas filas. Reserva tu cita con tu especialista favorito
+                            en segundos.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon">
+                            <i class="bi bi-file-earmark-medical"></i>
+                        </div>
+                        <h3>Historial Digital</h3>
+                        <p class="text-muted">Accede a tu historial médico, recetas y evoluciones desde cualquier lugar
+                            y en cualquier momento.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h3>Seguridad Total</h3>
+                        <p class="text-muted">Tus datos están protegidos con los más altos estándares de seguridad y
+                            privacidad.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="container mb-5">
+            <div class="row align-items-center bg-white rounded-4 shadow p-5">
+                <div class="col-lg-8">
+                    <h2 class="fw-bold text-primary">¿Eres médico?</h2>
+                    <p class="lead mb-0">Únete a nuestra red de especialistas y gestiona tus pacientes de manera
+                        eficiente.</p>
+                </div>
+                <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                    <a href="#" class="btn btn-primary btn-lg rounded-pill">Contáctanos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{layout :: footer}"></div>
+
+</body>
+
+</html>

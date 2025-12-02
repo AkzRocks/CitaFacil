@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Paciente</title>
+</head>
+<body>
+<div layout:fragment="content" class="container mt-4" th:object="${patient}">
+    <h2 th:text="${patient.id} != null ? 'Editar Paciente' : 'Nuevo Paciente'"></h2>
+    <form th:action="${patient.id} != null ? @{'/admin/patients/' + ${patient.id}} : @{'/admin/patients'}" method="post">
+        <div class="mb-3">
+            <label class="form-label">DNI</label>
+            <input type="text" class="form-control" th:field="*{dni}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Nombre Completo</label>
+            <input type="text" class="form-control" th:field="*{fullName}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Usuario</label>
+            <input type="text" class="form-control" th:field="*{username}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Contraseña</label>
+            <input type="password" class="form-control" name="rawPassword" placeholder="(requerido al crear, opcional al editar)">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Fecha de Nacimiento</label>
+            <input type="date" class="form-control" th:field="*{birthDate}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Seguro</label>
+            <input type="text" class="form-control" th:field="*{insuranceNumber}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">DNI del Apoderado (si es menor)</label>
+            <input type="text" class="form-control" th:field="*{parentDni}">
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a th:href="@{/admin/patients}" class="btn btn-secondary ms-2">Cancelar</a>
+    </form>
+</div>
+</body>
+</html>

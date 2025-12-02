@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout :: head}"></head>
+
+<body>
+
+    <nav th:replace="~{layout :: navbar}"></nav>
+
+    <div class="container mt-4">
+        <h2>Panel del Doctor</h2>
+        <div class="alert alert-info">
+            Bienvenido, Dr. <span th:text="${#authentication.name}">Usuario</span>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Mis Pacientes</div>
+                    <div class="card-body">
+                        <p>Lista de pacientes asignados (Placeholder)</p>
+                        <a href="#" class="btn btn-primary">Ver Pacientes</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Agenda del Día</div>
+                    <div class="card-body">
+                        <p>No hay citas programadas para hoy (Placeholder)</p>
+                        <a href="#" class="btn btn-primary">Ver Agenda</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{layout :: footer}"></div>
+
+</body>
+
+</html>

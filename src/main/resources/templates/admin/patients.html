@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Pacientes</title>
+</head>
+<body>
+<div layout:fragment="content" class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Pacientes</h2>
+        <a th:href="@{/admin/patients/new}" class="btn btn-primary btn-sm">Nuevo Paciente</a>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>DNI</th>
+            <th>Nombre</th>
+            <th>Usuario</th>
+            <th>Fecha Nacimiento</th>
+            <th>Seguro</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="patient : ${patients}">
+            <td th:text="${patient.id}"></td>
+            <td th:text="${patient.dni}"></td>
+            <td th:text="${patient.fullName}"></td>
+            <td th:text="${patient.username}"></td>
+            <td th:text="${patient.birthDate}"></td>
+            <td th:text="${patient.insuranceNumber}"></td>
+            <td>
+                <a th:href="@{'/admin/patients/' + ${patient.id} + '/edit'}" class="btn btn-sm btn-secondary">Editar</a>
+                <form th:action="@{'/admin/patients/' + ${patient.id} + '/delete'}" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar paciente?');">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

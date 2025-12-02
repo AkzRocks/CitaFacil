@@ -1,0 +1,219 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< com.medicina:citafacil >-----------------------
+[INFO] Building citafacil 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ citafacil ---
+[INFO] Deleting D:\citafacil\citafacil\target
+[INFO] 
+[INFO] >>> spring-boot:3.5.7:run (default-cli) > test-compile @ citafacil >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ citafacil ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 13 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ citafacil ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 23 source files with javac [debug parameters release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ citafacil ---
+[INFO] skip non existing resourceDirectory D:\citafacil\citafacil\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ citafacil ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target\test-classes
+[INFO] 
+[INFO] <<< spring-boot:3.5.7:run (default-cli) < test-compile @ citafacil <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.5.7:run (default-cli) @ citafacil ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.7)
+
+2025-12-01T16:22:34.612-05:00  INFO 29260 --- [citafacil] [           main] c.m.citafacil.CitafacilApplication       : Starting CitafacilApplication using Java 21.0.9 with PID 29260 (D:\citafacil\citafacil\target\classes started by will in D:\citafacil\citafacil)
+2025-12-01T16:22:34.616-05:00  INFO 29260 --- [citafacil] [           main] c.m.citafacil.CitafacilApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-12-01T16:22:35.328-05:00  INFO 29260 --- [citafacil] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-01T16:22:35.384-05:00  INFO 29260 --- [citafacil] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 51 ms. Found 5 JPA repository interfaces.
+2025-12-01T16:22:35.855-05:00  INFO 29260 --- [citafacil] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-12-01T16:22:35.875-05:00  INFO 29260 --- [citafacil] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-01T16:22:35.876-05:00  INFO 29260 --- [citafacil] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-12-01T16:22:35.945-05:00  INFO 29260 --- [citafacil] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-01T16:22:35.946-05:00  INFO 29260 --- [citafacil] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1297 ms
+2025-12-01T16:22:36.136-05:00  INFO 29260 --- [citafacil] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-01T16:22:36.177-05:00  INFO 29260 --- [citafacil] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2025-12-01T16:22:36.199-05:00  INFO 29260 --- [citafacil] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-01T16:22:36.398-05:00  INFO 29260 --- [citafacil] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-01T16:22:36.420-05:00  INFO 29260 --- [citafacil] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-01T16:22:36.555-05:00  INFO 29260 --- [citafacil] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:citafacil user=SA
+2025-12-01T16:22:36.555-05:00  INFO 29260 --- [citafacil] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-12-01T16:22:36.574-05:00  WARN 29260 --- [citafacil] [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-01T16:22:36.590-05:00  INFO 29260 --- [citafacil] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+Hibernate: 
+    create global temporary table HT_users(id bigint not null, primary key (id)) TRANSACTIONAL
+Hibernate: 
+    create global temporary table HTE_users(birth_date date, HTE_IDENTITY bigint generated 
+by
+    default as identity, id bigint, cmp varchar(255), dni varchar(255), full_name varchar(255), insurance_number varchar(255), parent_dni varchar(255), password varchar(255), specialty varchar(255), username varchar(255), role enum ('ADMIN', 'DOCTOR', 'PATIENT'), primary key (HTE_IDENTITY)) TRANSACTIONAL
+Hibernate: 
+    create global temporary table HTE_doctors(HTE_IDENTITY bigint generated 
+by
+    default as identity, id bigint, cmp varchar(255), dni varchar(255), full_name varchar(255), parent_dni varchar(255), password varchar(255), specialty varchar(255), username varchar(255), role enum ('ADMIN', 'DOCTOR', 'PATIENT'), primary key (HTE_IDENTITY)) TRANSACTIONAL
+Hibernate: 
+    create global temporary table HTE_patients(birth_date date, HTE_IDENTITY bigint generated 
+by
+    default as identity, id bigint, dni varchar(255), full_name varchar(255), insurance_number varchar(255), parent_dni varchar(255), password varchar(255), username varchar(255), role enum ('ADMIN', 'DOCTOR', 'PATIENT'), primary key (HTE_IDENTITY)) TRANSACTIONAL
+2025-12-01T16:22:37.334-05:00  INFO 29260 --- [citafacil] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: 
+    create table appointments (
+        id bigint generated by default as identity,
+        date date not null,
+        status enum ('CANCELLED','COMPLETED','PENDING') not null,
+        time time(6) not null,
+        doctor_id bigint not null,
+        patient_id bigint not null,
+        primary key (id)
+    )
+Hibernate: 
+    create table doctors (
+        cmp varchar(255) not null,
+        specialty varchar(255) not null,
+        id bigint not null,
+        primary key (id)
+    )
+Hibernate: 
+    create table medical_records (
+        id bigint generated by default as identity,
+        blood_sugar float(53),
+        date timestamp(6) not null,
+        diagnosis TEXT,
+        height float(53),
+        hemoglobin float(53),
+        notes TEXT,
+        treatment TEXT,
+        weight float(53),
+        doctor_id bigint not null,
+        patient_id bigint not null,
+        primary key (id)
+    )
+Hibernate: 
+    create table patients (
+        birth_date date not null,
+        insurance_number varchar(255),
+        id bigint not null,
+        primary key (id)
+    )
+Hibernate: 
+    create table users (
+        id bigint generated by default as identity,
+        dni varchar(255) not null,
+        full_name varchar(255) not null,
+        parent_dni varchar(255),
+        password varchar(255) not null,
+        role enum ('ADMIN','DOCTOR','PATIENT') not null,
+        username varchar(255) not null,
+        primary key (id)
+    )
+Hibernate: 
+    alter table if exists doctors 
+       drop constraint if exists UKkwnkrxi9j47sqgqs9f7k4e8bs
+Hibernate: 
+    alter table if exists doctors 
+       add constraint UKkwnkrxi9j47sqgqs9f7k4e8bs unique (cmp)
+Hibernate: 
+    alter table if exists users 
+       drop constraint if exists UK6aphui3g30h49muho4c91n0yl
+Hibernate: 
+    alter table if exists users 
+       add constraint UK6aphui3g30h49muho4c91n0yl unique (dni)
+Hibernate: 
+    alter table if exists users 
+       drop constraint if exists UKr43af9ap4edm43mmtq01oddj6
+Hibernate: 
+    alter table if exists users 
+       add constraint UKr43af9ap4edm43mmtq01oddj6 unique (username)
+Hibernate: 
+    alter table if exists appointments 
+       add constraint FKmujeo4tymoo98cmf7uj3vsv76 
+       foreign key (doctor_id) 
+       references doctors
+Hibernate: 
+    alter table if exists appointments 
+       add constraint FK8exap5wmg8kmb1g1rx3by21yt 
+       foreign key (patient_id) 
+       references patients
+Hibernate: 
+    alter table if exists doctors 
+       add constraint FKgisys6qm9qflq8w4npdhxafne 
+       foreign key (id) 
+       references users
+Hibernate: 
+    alter table if exists medical_records 
+       add constraint FKtny13k9v4o58styd47st3s2l5 
+       foreign key (doctor_id) 
+       references doctors
+Hibernate: 
+    alter table if exists medical_records 
+       add constraint FKrav12h9aiw7pegjt62p8owwn3 
+       foreign key (patient_id) 
+       references patients
+Hibernate: 
+    alter table if exists patients 
+       add constraint FKn8xphvlp05nd3ydg0p1rbdaom 
+       foreign key (id) 
+       references users
+2025-12-01T16:22:37.396-05:00  INFO 29260 --- [citafacil] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T16:22:37.745-05:00  INFO 29260 --- [citafacil] [           main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-12-01T16:22:37.921-05:00  INFO 29260 --- [citafacil] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-12-01T16:22:37.947-05:00  INFO 29260 --- [citafacil] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-12-01T16:22:38.251-05:00  INFO 29260 --- [citafacil] [           main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:citafacil'
+2025-12-01T16:22:38.323-05:00  WARN 29260 --- [citafacil] [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-12-01T16:22:38.325-05:00  INFO 29260 --- [citafacil] [           main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T16:22:38.327-05:00  INFO 29260 --- [citafacil] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-12-01T16:22:38.327-05:00  INFO 29260 --- [citafacil] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-12-01T16:22:38.338-05:00  INFO 29260 --- [citafacil] [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-12-01T16:22:38.353-05:00 ERROR 29260 --- [citafacil] [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  9.990 s
+[INFO] Finished at: 2025-12-01T16:22:38-05:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:3.5.7:run (default-cli) on project citafacil: Process terminated with exit code: 1 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

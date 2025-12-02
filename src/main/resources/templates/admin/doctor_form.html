@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Doctor</title>
+</head>
+<body>
+<div layout:fragment="content" class="container mt-4">
+    <h2 th:text="${doctor.id} != null ? 'Editar Doctor' : 'Nuevo Doctor'"></h2>
+    <form th:action="${doctor.id} != null ? @{'/admin/doctors/' + ${doctor.id}} : @{'/admin/doctors'}" method="post">
+        <div class="mb-3">
+            <label class="form-label">DNI</label>
+            <input type="text" class="form-control" th:field="*{dni}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Nombre Completo</label>
+            <input type="text" class="form-control" th:field="*{fullName}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Usuario</label>
+            <input type="text" class="form-control" th:field="*{username}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Contraseña</label>
+            <input type="password" class="form-control" name="rawPassword" placeholder="(dejar vacío para no cambiar)">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Especialidad</label>
+            <input type="text" class="form-control" th:field="*{specialty}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">CMP</label>
+            <input type="text" class="form-control" th:field="*{cmp}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a th:href="@{/admin/doctors}" class="btn btn-secondary ms-2">Cancelar</a>
+    </form>
+</div>
+</body>
+</html>
