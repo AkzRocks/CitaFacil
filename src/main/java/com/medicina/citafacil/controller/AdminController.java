@@ -3,6 +3,7 @@ package com.medicina.citafacil.controller;
 import com.medicina.citafacil.model.Doctor;
 import com.medicina.citafacil.model.Patient;
 import com.medicina.citafacil.model.Role;
+import com.medicina.citafacil.repository.AppointmentRepository;
 import com.medicina.citafacil.repository.DoctorRepository;
 import com.medicina.citafacil.repository.PatientRepository;
 import com.medicina.citafacil.service.UserService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -23,6 +25,9 @@ public class AdminController {
 
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private AppointmentRepository appointmentRepository;
 
     @Autowired
     private UserService userService;
@@ -45,7 +50,16 @@ public class AdminController {
     }
 
     @PostMapping("/doctors")
-    public String createDoctor(@ModelAttribute Doctor doctor, @RequestParam("rawPassword") String rawPassword) {
+    public String createDoctor(@ModelAttribute("doctor") Doctor doctor,
+                               BindingResult bindingResult,
+                               @RequestParam("rawPassword") String rawPassword,
+                               Model model) {
+
+        validateDoctorForm(doctor, rawPassword, null, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "admin/doctor_form";
+        }
+
         doctor.setRole(Role.DOCTOR);
         doctor.setPassword(passwordEncoder.encode(rawPassword));
         doctorRepository.save(doctor);
@@ -64,15 +78,63 @@ public class AdminController {
 
     @PostMapping("/doctors/{id}")
     public String updateDoctor(@PathVariable Long id,
-                               @ModelAttribute Doctor doctor,
-                               @RequestParam(value = "rawPassword", required = false) String rawPassword) {
-        doctor.setId(id);
-        doctor.setRole(Role.DOCTOR);
-        if (rawPassword != null && !rawPassword.isBlank()) {
-            doctor.setPassword(passwordEncoder.encode(rawPassword));
+                               @ModelAttribute("doctor") Doctor doctor,
+                               BindingResult bindingResult,
+                               @RequestParam(value = "rawPassword", required = false) String rawPassword,
+                               Model model) {
+        // Cargar el doctor existente para conservar campos no editados (como password si no se cambia)
+        Optional<Doctor> existingOpt = doctorRepository.findById(id);
+        if (existingOpt.isEmpty()) {
+            return "redirect:/admin/doctors";
         }
-        doctorRepository.save(doctor);
+
+        Doctor existing = existingOpt.get();
+
+        validateDoctorForm(doctor, rawPassword, id, bindingResult);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("doctor", doctor);
+            return "admin/doctor_form";
+        }
+        existing.setDni(doctor.getDni());
+        existing.setFullName(doctor.getFullName());
+        existing.setUsername(doctor.getUsername());
+        existing.setSpecialty(doctor.getSpecialty());
+        existing.setCmp(doctor.getCmp());
+        existing.setRole(Role.DOCTOR);
+
+        if (rawPassword != null && !rawPassword.isBlank()) {
+            existing.setPassword(passwordEncoder.encode(rawPassword));
+        }
+
+        doctorRepository.save(existing);
         return "redirect:/admin/doctors";
+    }
+
+    private void validateDoctorForm(Doctor doctor,
+                                    String rawPassword,
+                                    Long currentDoctorId,
+                                    BindingResult bindingResult) {
+
+        // Contraseña requerida al crear
+        if (currentDoctorId == null && (rawPassword == null || rawPassword.isBlank())) {
+            bindingResult.rejectValue("password", "password.required", "La contraseña es requerida para crear un doctor");
+        }
+
+        String cmp = doctor.getCmp();
+        if (cmp == null || !cmp.matches("\\d{9}")) {
+            bindingResult.rejectValue("cmp", "cmp.invalid", "El CMP debe tener exactamente 9 dígitos numéricos");
+        } else {
+            boolean exists = doctorRepository.existsByCmp(cmp);
+            if (exists) {
+                if (currentDoctorId != null) {
+                    var current = doctorRepository.findById(currentDoctorId);
+                    if (current.isPresent() && cmp.equals(current.get().getCmp())) {
+                        return; // mismo CMP del mismo médico
+                    }
+                }
+                bindingResult.rejectValue("cmp", "cmp.duplicate", "Ya existe un médico con el mismo CMP");
+            }
+        }
     }
 
     @PostMapping("/doctors/{id}/delete")
@@ -130,5 +192,13 @@ public class AdminController {
     public String deletePatient(@PathVariable Long id) {
         patientRepository.deleteById(id);
         return "redirect:/admin/patients";
+    }
+
+    // ===== Citas =====
+
+    @GetMapping("/appointments")
+    public String listAppointments(Model model) {
+        model.addAttribute("appointments", appointmentRepository.findAll());
+        return "admin/appointments";
     }
 }

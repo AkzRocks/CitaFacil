@@ -5,9 +5,10 @@
     <title>Paciente</title>
 </head>
 <body>
-<div layout:fragment="content" class="container mt-4" th:object="${patient}">
+<div layout:fragment="content" class="container mt-4">
     <h2 th:text="${patient.id} != null ? 'Editar Paciente' : 'Nuevo Paciente'"></h2>
-    <form th:action="${patient.id} != null ? @{'/admin/patients/' + ${patient.id}} : @{'/admin/patients'}" method="post">
+    <form th:object="${patient}"
+          th:action="${patient.id} != null ? @{'/admin/patients/' + ${patient.id}} : @{'/admin/patients'}" method="post">
         <div class="mb-3">
             <label class="form-label">DNI</label>
             <input type="text" class="form-control" th:field="*{dni}" required>

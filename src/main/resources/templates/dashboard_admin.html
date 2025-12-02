@@ -9,6 +9,14 @@
 
     <div class="container mt-4">
         <h2>Panel de Administración</h2>
+
+        <!-- Acciones rápidas -->
+        <div class="mb-3">
+            <a class="btn btn-primary btn-sm me-2" th:href="@{/admin/doctors}">Gestionar Doctores</a>
+            <a class="btn btn-success btn-sm me-2" th:href="@{/admin/patients}">Gestionar Pacientes</a>
+            <a class="btn btn-warning btn-sm" th:href="@{/admin/appointments}">Ver Citas</a>
+        </div>
+
         <div class="row mt-4">
             <div class="col-md-4">
                 <div class="card text-white bg-primary mb-3">
@@ -38,10 +46,54 @@
                 </div>
             </div>
         </div>
-        <!-- Aquí se pueden agregar más gráficos con Chart.js -->
+
+        <!-- Gráfico de citas por mes -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <h4>Citas por mes</h4>
+                <canvas id="appointmentsChart"></canvas>
+            </div>
+        </div>
     </div>
 
     <div th:replace="~{layout :: footer}"></div>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const stats = /*[[${stats}]]*/ {};
+        const perMonth = stats.appointmentsPerMonth || {};
+
+        const labels = Object.keys(perMonth).sort();
+        const data = labels.map(l => perMonth[l]);
+
+        const ctx = document.getElementById('appointmentsChart');
+        if (ctx && labels.length > 0) {
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Citas',
+                        data: data,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            precision: 0
+                        }
+                    }
+                }
+            });
+        }
+        /*]]>*/
+    </script>
 
 </body>
 

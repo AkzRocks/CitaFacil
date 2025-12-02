@@ -7,7 +7,8 @@
 <body>
 <div layout:fragment="content" class="container mt-4">
     <h2 th:text="${doctor.id} != null ? 'Editar Doctor' : 'Nuevo Doctor'"></h2>
-    <form th:action="${doctor.id} != null ? @{'/admin/doctors/' + ${doctor.id}} : @{'/admin/doctors'}" method="post">
+    <form th:object="${doctor}"
+          th:action="${doctor.id} != null ? @{'/admin/doctors/' + ${doctor.id}} : @{'/admin/doctors'}" method="post">
         <div class="mb-3">
             <label class="form-label">DNI</label>
             <input type="text" class="form-control" th:field="*{dni}" required>
@@ -23,14 +24,28 @@
         <div class="mb-3">
             <label class="form-label">Contraseña</label>
             <input type="password" class="form-control" name="rawPassword" placeholder="(dejar vacío para no cambiar)">
+            <div class="text-danger mt-1" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
         </div>
         <div class="mb-3">
             <label class="form-label">Especialidad</label>
-            <input type="text" class="form-control" th:field="*{specialty}" required>
+            <select class="form-select" th:field="*{specialty}" required>
+                <option value="" disabled th:selected="${doctor.specialty} == null">Seleccione una especialidad</option>
+                <option value="Medicina General">Medicina General</option>
+                <option value="Pediatría">Pediatría</option>
+                <option value="Ginecología">Ginecología</option>
+                <option value="Odontología">Odontología</option>
+                <option value="Dermatología">Dermatología</option>
+                <option value="Cardiología">Cardiología</option>
+                <option value="Traumatología">Traumatología</option>
+                <option value="Psicología">Psicología</option>
+                <option value="Nutrición">Nutrición</option>
+                <option value="Laboratorio clínico">Laboratorio clínico</option>
+            </select>
         </div>
         <div class="mb-3">
             <label class="form-label">CMP</label>
             <input type="text" class="form-control" th:field="*{cmp}" required>
+            <div class="text-danger mt-1" th:if="${#fields.hasErrors('cmp')}" th:errors="*{cmp}"></div>
         </div>
         <button type="submit" class="btn btn-primary">Guardar</button>
         <a th:href="@{/admin/doctors}" class="btn btn-secondary ms-2">Cancelar</a>
