@@ -19,7 +19,7 @@
                     <div class="card-header">Mis Citas</div>
                     <div class="card-body">
                         <p>Gestiona tus próximas citas médicas.</p>
-                        <a href="#" class="btn btn-primary">Agendar Nueva Cita</a>
+                        <a th:href="@{/patient/appointments}" class="btn btn-primary">Ver Mis Citas</a>
                     </div>
                 </div>
             </div>
@@ -27,8 +27,8 @@
                 <div class="card">
                     <div class="card-header">Historial Médico</div>
                     <div class="card-body">
-                        <p>Consulta tu historial y recetas.</p>
-                        <a href="#" class="btn btn-info text-white">Ver Historial</a>
+                        <p>Consulta tu historial y resultados clínicos.</p>
+                        <a th:href="@{/patient/history}" class="btn btn-info text-white">Ver Historial</a>
                     </div>
                 </div>
             </div>

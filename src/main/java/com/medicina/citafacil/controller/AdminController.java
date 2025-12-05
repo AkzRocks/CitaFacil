@@ -179,12 +179,30 @@ public class AdminController {
     public String updatePatient(@PathVariable Long id,
                                 @ModelAttribute Patient patient,
                                 @RequestParam(value = "rawPassword", required = false) String rawPassword) {
-        patient.setId(id);
-        if (rawPassword != null && !rawPassword.isBlank()) {
-            patient.setPassword(passwordEncoder.encode(rawPassword));
+        var existingOpt = patientRepository.findById(id);
+        if (existingOpt.isEmpty()) {
+            return "redirect:/admin/patients";
         }
-        patient.setRole(Role.PATIENT);
-        patientRepository.save(patient);
+
+        Patient existing = existingOpt.get();
+
+        // Campos editables básicos
+        existing.setDni(patient.getDni());
+        existing.setFullName(patient.getFullName());
+        existing.setUsername(patient.getUsername());
+        existing.setBirthDate(patient.getBirthDate());
+        existing.setInsuranceNumber(patient.getInsuranceNumber());
+        existing.setParentDni(patient.getParentDni());
+
+        // Rol fijo de paciente
+        existing.setRole(Role.PATIENT);
+
+        // Solo cambiar password si se envía una nueva
+        if (rawPassword != null && !rawPassword.isBlank()) {
+            existing.setPassword(passwordEncoder.encode(rawPassword));
+        }
+
+        patientRepository.save(existing);
         return "redirect:/admin/patients";
     }
 

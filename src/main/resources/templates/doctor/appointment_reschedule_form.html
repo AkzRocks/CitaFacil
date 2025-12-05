@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Reprogramar Cita</title>
+</head>
+<body>
+<div layout:fragment="content" class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Reprogramar Cita</h2>
+        <a th:href="@{/dashboard}" class="btn btn-secondary btn-sm">Volver al Panel</a>
+    </div>
+    <div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+    <div class="mb-3">
+        <strong>Paciente:</strong> <span th:text="${appointment.patient.fullName}"></span><br>
+        <strong>Fecha actual:</strong> <span th:text="${appointment.date}"></span>
+        <strong>Hora actual:</strong> <span th:text="${appointment.time}"></span>
+    </div>
+
+    <form th:object="${appointment}" method="post">
+        <div class="mb-3">
+            <label class="form-label">Nueva Fecha</label>
+            <input type="date" class="form-control" th:field="*{rescheduledDate}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Nueva Hora</label>
+            <input type="time" class="form-control" th:field="*{rescheduledTime}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a th:href="@{/doctor/appointments}" class="btn btn-secondary ms-2">Cancelar</a>
+    </form>
+</div>
+</body>
+</html>

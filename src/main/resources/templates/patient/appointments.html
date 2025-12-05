@@ -7,9 +7,37 @@
 </head>
 
 <body>
-    <div layout:fragment="content">
-        <h2>Mis Citas</h2>
-        <p>Gestión de citas en construcción.</p>
+    <div layout:fragment="content" class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Mis Próximas Citas</h2>
+            <div>
+                <a th:href="@{/dashboard}" class="btn btn-secondary btn-sm me-2">Volver al Panel</a>
+                <a th:href="@{/patient/appointments/new}" class="btn btn-primary btn-sm">Reservar Cita</a>
+            </div>
+        </div>
+
+        <table class="table table-striped mt-3">
+            <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Doctor</th>
+                <th>Especialidad</th>
+                <th>Motivo</th>
+                <th>Estado</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="appt : ${appointments}">
+                <td th:text="${appt.date}"></td>
+                <td th:text="${appt.time}"></td>
+                <td th:text="${appt.doctor.fullName}"></td>
+                <td th:text="${appt.doctor.specialty}"></td>
+                <td th:text="${appt.reason}"></td>
+                <td th:text="${appt.status}"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </body>
 

@@ -10,7 +10,10 @@
     <div layout:fragment="content" class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>Mis Citas Futuras</h2>
-            <a th:href="@{/doctor/appointments/new}" class="btn btn-primary btn-sm">Nueva Cita</a>
+            <div>
+                <a th:href="@{/dashboard}" class="btn btn-secondary btn-sm me-2">Volver al Panel</a>
+                <a th:href="@{/doctor/appointments/new}" class="btn btn-primary btn-sm">Nueva Cita</a>
+            </div>
         </div>
 
         <table class="table table-striped">
@@ -21,6 +24,7 @@
                 <th>Paciente</th>
                 <th>Motivo</th>
                 <th>Estado</th>
+                <th>Acciones</th>
             </tr>
             </thead>
             <tbody>
@@ -30,6 +34,16 @@
                 <td th:text="${appt.patient.fullName}"></td>
                 <td th:text="${appt.reason}"></td>
                 <td th:text="${appt.status}"></td>
+                <td>
+                    <a th:href="@{'/doctor/appointments/' + ${appt.id} + '/complete'}"
+                       class="btn btn-sm btn-success" th:if="${appt.status.name() == 'PENDING'}">Completar</a>
+                    <form th:action="@{'/doctor/appointments/' + ${appt.id} + '/no-show'}" method="post"
+                          class="d-inline" th:if="${appt.status.name() == 'PENDING'}">
+                        <button type="submit" class="btn btn-sm btn-warning">No asistió</button>
+                    </form>
+                    <a th:href="@{'/doctor/appointments/' + ${appt.id} + '/reschedule'}"
+                       class="btn btn-sm btn-secondary" th:if="${appt.status.name() == 'PENDING'}">Reprogramar</a>
+                </td>
             </tr>
             </tbody>
         </table>

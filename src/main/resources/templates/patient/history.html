@@ -7,9 +7,36 @@
 </head>
 
 <body>
-    <div layout:fragment="content">
-        <h2>Historial Médico</h2>
-        <p>Detalle de historial en construcción.</p>
+    <div layout:fragment="content" class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Historial Médico</h2>
+            <a th:href="@{/dashboard}" class="btn btn-secondary btn-sm">Volver al Panel</a>
+        </div>
+
+        <table class="table table-striped mt-3">
+            <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Doctor</th>
+                <th>Diagnóstico</th>
+                <th>Tratamiento</th>
+                <th>Hemoglobina</th>
+                <th>Glucosa</th>
+                <th>Peso</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="rec : ${records}">
+                <td th:text="${#temporals.format(rec.date, 'dd/MM/yyyy HH:mm')}"></td>
+                <td th:text="${rec.doctor.fullName}"></td>
+                <td th:text="${rec.diagnosis}"></td>
+                <td th:text="${rec.treatment}"></td>
+                <td th:text="${rec.hemoglobin}"></td>
+                <td th:text="${rec.bloodSugar}"></td>
+                <td th:text="${rec.weight}"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </body>
 
