@@ -14,14 +14,19 @@
                 <h1 class="hero-title">Tu Salud, Nuestra Prioridad</h1>
                 <p class="hero-subtitle">Gestiona tus citas médicas de forma rápida, segura y desde la comodidad de tu
                     hogar.</p>
-                <div class="d-flex justify-content-center gap-3">
-                    <a th:href="@{/login}" class="btn btn-hero">Iniciar Sesión</a>
-                    <a th:href="@{/register}"
-                        class="btn btn-outline-light btn-lg rounded-pill px-4 fw-bold">Registrarse</a>
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <!-- Sólo si no está autenticado -->
+                    <div th:unless="${#authorization.expression('isAuthenticated()')}">
+                        <a th:href="@{/login}" class="btn btn-hero">Iniciar Sesión</a>
+                        <a th:href="@{/register}" class="btn btn-outline-light btn-lg rounded-pill px-4 fw-bold ms-2"> Registrarse</a>
+                    </div>
+                    <!-- Sólo si está autenticado -->
+                    <div th:if="${#authorization.expression('isAuthenticated()')}">
+                        <a th:href="@{/dashboard}" class="btn btn-hero">Ir al Panel</a>
+                    </div>
                 </div>
             </div>
         </div>
-
         <!-- Features Section -->
         <div class="container mb-5">
             <div class="row g-4">
