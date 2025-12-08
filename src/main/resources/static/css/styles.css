@@ -20,6 +20,9 @@ body {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     box-shadow: var(--shadow);
     padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 999;
 }
 
 .navbar-brand {
@@ -162,3 +165,182 @@ body {
 .bg-gradient-primary { background: linear-gradient(45deg, #4e73df, #224abe); }
 .bg-gradient-success { background: linear-gradient(45deg, #1cc88a, #13855c); }
 .bg-gradient-info { background: linear-gradient(45deg, #36b9cc, #258391); }
+
+/* ================================
+   CONTENEDOR GLOBAL (Login + Register)
+   ================================ */
+.login-container,
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+
+    background: linear-gradient(
+                rgba(0, 86, 179, 0.6), 
+                rgba(0, 168, 204, 0.6)
+              ),
+              url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* ================================
+   TARJETAS (Login + Register)
+   ================================ */
+.login-card,
+.register-card {
+    background: rgba(255, 255, 255, 0.92);
+    padding: 2rem;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Títulos */
+.login-card h1,
+.register-card h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #0056b3;
+}
+
+/* Inputs */
+.form-control {
+    border-radius: 8px !important;
+}
+
+/* Botones */
+.btn-login,
+.btn-register {
+    background: #007bff;
+    color: white;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 0.7rem;
+    transition: 0.2s ease;
+    width: 100%;
+}
+
+.btn-login:hover,
+.btn-register:hover {
+    background: #0056b3;
+}
+
+/* Animaciones sutiles */
+@keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(30px);}
+    100% { opacity: 1; transform: translateY(0);}
+}
+
+@keyframes fadeSoft {
+    0% { opacity: 0; transform: scale(0.95);}
+    100% { opacity: 1; transform: scale(1);}
+}
+
+/* Animaciones */
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeSoft {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes softPulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 86, 179, 0.25); }
+    70% { box-shadow: 0 0 0 10px rgba(0, 86, 179, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 86, 179, 0); }
+}
+
+main,
+.container,
+.row,
+.card {
+    animation: fadeUp 0.6s ease both;
+}
+
+.navbar {
+    animation: fadeSoft 0.5s ease;
+}
+
+.card,
+.feature-card,
+.stat-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover,
+.feature-card:hover,
+.stat-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.btn {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.btn-primary {
+    animation: softPulse 2.8s infinite;
+}
+
+.form-control {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+a {
+    position: relative;
+    text-decoration: none;
+}
+
+a::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    left: 0;
+    bottom: -2px;
+    background-color: var(--secondary-color);
+    transition: width 0.3s ease;
+}
+
+a:hover::after {
+    width: 100%;
+}
+
+/* Estado inicial oculto (cuando JS lo tiene en display:none) */
+#parentDniDiv {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+/* Cuando JS lo muestre con display:block, se animará automáticamente */
+#parentDniDiv[style*="display: block"] {
+    opacity: 1;
+    transform: translateY(0);
+}
