@@ -4,12 +4,14 @@
 <head>
     <th:block th:replace="~{layout :: head}"></th:block>
     <title>Registro - CitaFacil</title>
+
     <script>
         function checkAge() {
             const birthDate = new Date(document.getElementById('birthDate').value);
             const today = new Date();
             let age = today.getFullYear() - birthDate.getFullYear();
             const m = today.getMonth() - birthDate.getMonth();
+
             if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
                 age--;
             }
@@ -28,49 +30,55 @@
     </script>
 </head>
 
-<body class="bg-light">
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">Registro de Paciente</div>
-                    <div class="card-body">
-                        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-                        <form th:action="@{/register}" th:object="${patient}" method="post">
-                            <div class="mb-3">
-                                <label class="form-label">DNI</label>
-                                <input type="text" class="form-control" th:field="*{dni}" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Nombre Completo</label>
-                                <input type="text" class="form-control" th:field="*{fullName}" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Usuario</label>
-                                <input type="text" class="form-control" th:field="*{username}" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" name="rawPassword" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Fecha de Nacimiento</label>
-                                <input type="date" class="form-control" id="birthDate" th:field="*{birthDate}"
-                                    onchange="checkAge()" required>
-                            </div>
-                            <div class="mb-3" id="parentDniDiv" style="display:none;">
-                                <label class="form-label">DNI del Padre/Tutor (Menor de edad)</label>
-                                <input type="text" class="form-control" id="parentDni" th:field="*{parentDni}">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Número de Seguro</label>
-                                <input type="text" class="form-control" th:field="*{insuranceNumber}">
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100">Registrarse</button>
-                        </form>
-                    </div>
+<body>
+    <div class="register-container">
+        <div class="register-card">
+
+            <h1>Registro de Paciente</h1>
+
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+            <form th:action="@{/register}" th:object="${patient}" method="post">
+
+                <div class="mb-3">
+                    <label>DNI</label>
+                    <input type="text" class="form-control" th:field="*{dni}" required>
                 </div>
-            </div>
+
+                <div class="mb-3">
+                    <label>Nombre Completo</label>
+                    <input type="text" class="form-control" th:field="*{fullName}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label>Usuario</label>
+                    <input type="text" class="form-control" th:field="*{username}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label>Contraseña</label>
+                    <input type="password" class="form-control" name="rawPassword" required>
+                </div>
+
+                <div class="mb-3">
+                    <label>Fecha de Nacimiento</label>
+                    <input type="date" class="form-control" id="birthDate" th:field="*{birthDate}"
+                        onchange="checkAge()" required>
+                </div>
+
+                <div class="mb-3" id="parentDniDiv">
+                    <label>DNI del Padre/Tutor (Menor de edad)</label>
+                    <input type="text" class="form-control" id="parentDni" th:field="*{parentDni}">
+                </div>
+
+                <div class="mb-3">
+                    <label>Número de Seguro</label>
+                    <input type="text" class="form-control" th:field="*{insuranceNumber}">
+                </div>
+
+                <button type="submit" class="btn btn-register">Registrarse</button>
+            </form>
+
         </div>
     </div>
 </body>
