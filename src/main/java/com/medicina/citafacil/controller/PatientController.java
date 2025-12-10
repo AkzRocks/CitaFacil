@@ -4,10 +4,13 @@ import com.medicina.citafacil.model.Appointment;
 import com.medicina.citafacil.model.MedicalRecord;
 import com.medicina.citafacil.model.Patient;
 import com.medicina.citafacil.model.Doctor;
+import com.medicina.citafacil.model.DoctorSchedule;
 import com.medicina.citafacil.repository.AppointmentRepository;
 import com.medicina.citafacil.repository.MedicalRecordRepository;
 import com.medicina.citafacil.repository.DoctorRepository;
+import com.medicina.citafacil.repository.DoctorScheduleRepository;
 import com.medicina.citafacil.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Controller
