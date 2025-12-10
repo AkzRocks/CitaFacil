@@ -39,7 +39,26 @@
                 <div class="card">
                     <div class="card-header">Evolución de Salud</div>
                     <div class="card-body">
-                        <canvas id="healthChart"></canvas>
+                        <p th:if="${#lists.isEmpty(labels)}">Aún no hay registros clínicos para mostrar.</p>
+
+                        <div class="row" th:if="${!#lists.isEmpty(labels)}">
+                            <div class="col-md-6 mb-4">
+                                <h5>Hemoglobina</h5>
+                                <div style="height:220px;"><canvas id="chartHemoglobin"></canvas></div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <h5>Peso</h5>
+                                <div style="height:220px;"><canvas id="chartWeight"></canvas></div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <h5>Triglicéridos</h5>
+                                <div style="height:220px;"><canvas id="chartTriglycerides"></canvas></div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <h5>Azúcar en sangre</h5>
+                                <div style="height:220px;"><canvas id="chartBloodSugar"></canvas></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -49,27 +68,52 @@
     <div th:replace="~{layout :: footer}"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        const ctx = document.getElementById('healthChart');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Peso (kg)',
-                    data: [70, 71, 70.5, 69, 68.5, 68],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: false
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const labels = /*[[${labels}]]*/ [];
+        const weights = /*[[${weights}]]*/ [];
+        const hemoglobins = /*[[${hemoglobins}]]*/ [];
+        const triglycerides = /*[[${triglycerides}]]*/ [];
+        const bloodSugars = /*[[${bloodSugars}]]*/ [];
+
+        function createLineChart(canvasId, label, data, color) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: label,
+                            data: data,
+                            borderColor: color,
+                            tension: 0.2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
+
+        if (labels.length > 0) {
+            createLineChart('chartHemoglobin', 'Hemoglobina (g/dL)', hemoglobins, 'rgba(255, 99, 132, 1)');
+            createLineChart('chartWeight', 'Peso (kg)', weights, 'rgba(54, 162, 235, 1)');
+            createLineChart('chartTriglycerides', 'Triglicéridos (mg/dL)', triglycerides, 'rgba(255, 159, 64, 1)');
+            createLineChart('chartBloodSugar', 'Glucosa (mg/dL)', bloodSugars, 'rgba(75, 192, 192, 1)');
+        }
+        /*]]>*/
     </script>
+
 </body>
 
 </html>

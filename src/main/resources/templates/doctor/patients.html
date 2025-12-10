@@ -7,9 +7,43 @@
 </head>
 
 <body>
-    <div layout:fragment="content">
-        <h2>Mis Pacientes</h2>
-        <p>Lista de pacientes en construcción.</p>
+    <div layout:fragment="content" class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Mis Pacientes</h2>
+            <a th:href="@{/dashboard}" class="btn btn-secondary btn-sm">Volver al Panel</a>
+        </div>
+
+        <form method="get" class="row g-2 mb-3">
+            <div class="col-md-4">
+                <input type="text" name="q" class="form-control" placeholder="Buscar por DNI o nombre"
+                       th:value="${q}">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+        </form>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>DNI</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${patients}">
+                <td th:text="${p.fullName}"></td>
+                <td th:text="${p.dni}"></td>
+                <td>
+                    <a th:href="@{'/doctor/patients/' + ${p.id} + '/history'}" class="btn btn-sm btn-primary">Ver historial</a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(patients)}">
+                <td colspan="3" class="text-center">No se encontraron pacientes.</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </body>
 

@@ -39,10 +39,9 @@
                        class="btn btn-sm btn-success" th:if="${appt.status.name() == 'PENDING'}">Completar</a>
                     <form th:action="@{'/doctor/appointments/' + ${appt.id} + '/no-show'}" method="post"
                           class="d-inline" th:if="${appt.status.name() == 'PENDING'}">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                         <button type="submit" class="btn btn-sm btn-warning">No asistió</button>
                     </form>
-                    <a th:href="@{'/doctor/appointments/' + ${appt.id} + '/reschedule'}"
-                       class="btn btn-sm btn-secondary" th:if="${appt.status.name() == 'PENDING'}">Reprogramar</a>
                 </td>
             </tr>
             </tbody>

@@ -11,22 +11,56 @@
         <a th:href="@{/dashboard}" class="btn btn-secondary btn-sm">Volver al Panel</a>
     </div>
     <div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
-    <form th:object="${appointment}" th:action="@{/patient/appointments}" method="post">
+
+    <!-- Paso 1: Buscar horarios -->
+    <form th:action="@{/patient/appointments/new}" method="get" class="mb-4">
+        <div class="row">
+            <div class="col-md-5 mb-3">
+                <label class="form-label">Doctor</label>
+                <select class="form-select" name="doctorId" required>
+                    <option th:if="${searchDoctorId} == null" value="" disabled selected>Seleccione un doctor</option>
+                    <option th:each="d : ${doctors}"
+                            th:value="${d.id}"
+                            th:text="${d.fullName + ' - ' + d.specialty}"
+                            th:selected="${searchDoctorId} == ${d.id}"></option>
+                </select>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Fecha</label>
+                <input type="date" class="form-control" name="date"
+                       th:value="${searchDate}" required>
+            </div>
+            <div class="col-md-3 d-flex align-items-end mb-3">
+                <button type="submit" class="btn btn-primary w-100">Buscar horarios</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Paso 2: Elegir hora y confirmar cita, solo si hay slots disponibles -->
+    <form th:if="${timeSlots != null and !#lists.isEmpty(timeSlots)}"
+          th:object="${appointment}"
+          th:action="@{/patient/appointments}" method="post">
         <div class="mb-3">
-            <label class="form-label">Doctor</label>
-            <select class="form-select" th:field="*{doctor}" required>
-                <option value="" disabled selected>Seleccione un doctor</option>
-                <option th:each="d : ${doctors}" th:value="${d.id}"
-                        th:text="${d.fullName + ' - ' + d.specialty}"></option>
-            </select>
+            <label class="form-label">Doctor seleccionado</label>
+            <input type="text" class="form-control" th:value="${appointment.doctor.fullName + ' - ' + appointment.doctor.specialty}" readonly>
+            <input type="hidden" name="doctorId" th:value="${appointment.doctor.id}">
         </div>
         <div class="mb-3">
-            <label class="form-label">Fecha</label>
-            <input type="date" class="form-control" th:field="*{date}" required>
+            <label class="form-label">Fecha seleccionada</label>
+            <!-- Mostrar la fecha al usuario como texto legible -->
+            <input type="text" class="form-control mb-1"
+                   th:value="${#temporals.format(appointment.date, 'dd/MM/yyyy')}" readonly>
+            <!-- Enviar la fecha real en formato ISO al backend -->
+            <input type="hidden" th:field="*{date}">
         </div>
         <div class="mb-3">
             <label class="form-label">Hora</label>
-            <input type="time" class="form-control" th:field="*{time}" required>
+            <select class="form-select" th:field="*{time}" required>
+                <option value="" disabled selected>Seleccione una hora</option>
+                <option th:each="slot : ${timeSlots}"
+                        th:value="${slot}"
+                        th:text="${#temporals.format(slot, 'HH:mm')}"></option>
+            </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Motivo</label>

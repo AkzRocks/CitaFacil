@@ -39,8 +39,65 @@ public class DoctorController {
     private MedicalRecordRepository medicalRecordRepository;
 
     @GetMapping("/patients")
-    public String patients() {
-        return "doctor/patients"; // Pendiente de crear vista detallada
+    public String patients(Authentication authentication,
+                           @org.springframework.web.bind.annotation.RequestParam(value = "q", required = false) String query,
+                           Model model) {
+        Doctor doctor = getCurrentDoctor(authentication);
+        if (doctor == null) {
+            return "redirect:/login";
+        }
+
+        // Obtener todas las citas del doctor y derivar los pacientes únicos
+        java.util.List<Appointment> doctorAppointments = appointmentRepository.findByDoctor(doctor);
+        java.util.LinkedHashSet<com.medicina.citafacil.model.Patient> patients = new java.util.LinkedHashSet<>();
+        for (Appointment a : doctorAppointments) {
+            if (a.getPatient() != null) {
+                patients.add(a.getPatient());
+            }
+        }
+
+        // Filtro por nombre o DNI si se proporciona 'q'
+        java.util.List<com.medicina.citafacil.model.Patient> filtered = new java.util.ArrayList<>();
+        String q = query != null ? query.trim().toLowerCase() : null;
+        for (com.medicina.citafacil.model.Patient p : patients) {
+            if (q == null || q.isEmpty()) {
+                filtered.add(p);
+            } else {
+                String name = p.getFullName() != null ? p.getFullName().toLowerCase() : "";
+                String dni = p.getDni() != null ? p.getDni().toLowerCase() : "";
+                if (name.contains(q) || dni.contains(q)) {
+                    filtered.add(p);
+                }
+            }
+        }
+
+        model.addAttribute("patients", filtered);
+        model.addAttribute("q", query);
+        return "doctor/patients";
+    }
+
+    // Ver historial médico de un paciente atendido por el doctor
+    @GetMapping("/patients/{patientId}/history")
+    public String patientHistory(@PathVariable Long patientId,
+                                 Authentication authentication,
+                                 Model model) {
+        Doctor doctor = getCurrentDoctor(authentication);
+        if (doctor == null) {
+            return "redirect:/login";
+        }
+
+        var patientOpt = patientRepository.findById(patientId);
+        if (patientOpt.isEmpty()) {
+            return "redirect:/doctor/patients";
+        }
+        var patient = patientOpt.get();
+
+        // Opcional: podríamos validar que el doctor tenga al menos una cita con este paciente
+        java.util.List<MedicalRecord> records = medicalRecordRepository.findByPatientOrderByDateDesc(patient);
+
+        model.addAttribute("patient", patient);
+        model.addAttribute("records", records);
+        return "doctor/patient_history";
     }
 
     // Listar citas futuras del doctor autenticado
@@ -61,19 +118,27 @@ public class DoctorController {
 
     // Formulario para crear una nueva cita futura
     @GetMapping("/appointments/new")
-    public String newAppointment(Authentication authentication, Model model) {
+    public String newAppointment(Authentication authentication,
+                                @org.springframework.web.bind.annotation.RequestParam(value = "patientId", required = false) Long patientId,
+                                Model model) {
         Doctor doctor = getCurrentDoctor(authentication);
         if (doctor == null) {
             return "redirect:/login";
         }
 
         Appointment appointment = new Appointment();
-        appointment.setDate(LocalDate.now());
+        // Por defecto, sugerir mañana como fecha de cita
+        appointment.setDate(LocalDate.now().plusDays(1));
         appointment.setTime(LocalTime.of(9, 0));
+
+        if (patientId != null) {
+            patientRepository.findById(patientId).ifPresent(appointment::setPatient);
+        }
 
         model.addAttribute("appointment", appointment);
         // Pacientes disponibles; en un escenario real se podrían filtrar solo "sus" pacientes
         model.addAttribute("patients", patientRepository.findAll());
+        model.addAttribute("timeSlots", getDefaultTimeSlots());
         return "doctor/appointment_form";
     }
 
@@ -85,6 +150,17 @@ public class DoctorController {
         Doctor doctor = getCurrentDoctor(authentication);
         if (doctor == null) {
             return "redirect:/login";
+        }
+
+        // Validar que la fecha sea posterior a hoy
+        LocalDate today = LocalDate.now();
+        if (appointment.getDate() == null || !appointment.getDate().isAfter(today)) {
+            appointment.setDoctor(doctor);
+            model.addAttribute("appointment", appointment);
+            model.addAttribute("patients", patientRepository.findAll());
+            model.addAttribute("timeSlots", getDefaultTimeSlots());
+            model.addAttribute("errorMessage", "Solo puedes crear citas en fechas posteriores a hoy.");
+            return "doctor/appointment_form";
         }
 
         // Validar disponibilidad del doctor en fecha/hora
@@ -99,6 +175,7 @@ public class DoctorController {
             appointment.setDoctor(doctor);
             model.addAttribute("appointment", appointment);
             model.addAttribute("patients", patientRepository.findAll());
+            model.addAttribute("timeSlots", getDefaultTimeSlots());
             model.addAttribute("errorMessage", "Ya existe una cita en esa fecha y hora para este doctor. Elige otro horario.");
             return "doctor/appointment_form";
         }
@@ -124,14 +201,38 @@ public class DoctorController {
             return "redirect:/doctor/appointments";
         }
 
-        MedicalRecord record = new MedicalRecord();
-        record.setDate(java.time.LocalDateTime.now());
-        record.setDoctor(doctor);
-        record.setPatient(appointment.getPatient());
-        record.setAppointment(appointment);
+        // Si ya existe un registro médico para esta cita, lo reutilizamos para edición
+        java.util.Optional<MedicalRecord> existingOpt = medicalRecordRepository.findByAppointment(appointment);
+        MedicalRecord record;
+
+        java.util.List<MedicalRecord> history = medicalRecordRepository
+                .findByPatientOrderByDateDesc(appointment.getPatient());
+
+        if (existingOpt.isPresent()) {
+            record = existingOpt.get();
+        } else {
+            // Crear un nuevo registro precargando métricas desde el último historial del paciente (si existe)
+            record = new MedicalRecord();
+            record.setDate(java.time.LocalDateTime.now());
+            record.setDoctor(doctor);
+            record.setPatient(appointment.getPatient());
+            record.setAppointment(appointment);
+
+            if (!history.isEmpty()) {
+                MedicalRecord last = history.get(0);
+                record.setWeight(last.getWeight());
+                record.setBloodSugar(last.getBloodSugar());
+                record.setHemoglobin(last.getHemoglobin());
+                record.setTriglycerides(last.getTriglycerides());
+                record.setHeight(last.getHeight());
+                record.setCholesterol(last.getCholesterol());
+                record.setBmi(last.getBmi());
+            }
+        }
 
         model.addAttribute("appointment", appointment);
         model.addAttribute("record", record);
+        model.addAttribute("lastRecord", history.isEmpty() ? null : history.get(0));
         return "doctor/appointment_record_form";
     }
 
@@ -152,13 +253,57 @@ public class DoctorController {
         appointment.setStatus(AppointmentStatus.COMPLETED);
         appointmentRepository.save(appointment);
 
-        record.setAppointment(appointment);
-        record.setDoctor(doctor);
-        record.setPatient(appointment.getPatient());
-        if (record.getDate() == null) {
-            record.setDate(java.time.LocalDateTime.now());
+        // Cargar registro existente (si lo hay) y hacer actualización parcial
+        MedicalRecord existing = medicalRecordRepository.findByAppointment(appointment)
+                .orElseGet(() -> {
+                    MedicalRecord r = new MedicalRecord();
+                    r.setAppointment(appointment);
+                    r.setDoctor(doctor);
+                    r.setPatient(appointment.getPatient());
+                    return r;
+                });
+
+        // Campos de texto: solo reemplazar si se envía algo
+        if (record.getDiagnosis() != null && !record.getDiagnosis().isBlank()) {
+            existing.setDiagnosis(record.getDiagnosis());
         }
-        medicalRecordRepository.save(record);
+        if (record.getTreatment() != null && !record.getTreatment().isBlank()) {
+            existing.setTreatment(record.getTreatment());
+        }
+        if (record.getNotes() != null && !record.getNotes().isBlank()) {
+            existing.setNotes(record.getNotes());
+        }
+
+        // Métricas: solo reemplazar si no son null
+        if (record.getWeight() != null) {
+            existing.setWeight(record.getWeight());
+        }
+        if (record.getBloodSugar() != null) {
+            existing.setBloodSugar(record.getBloodSugar());
+        }
+        if (record.getHemoglobin() != null) {
+            existing.setHemoglobin(record.getHemoglobin());
+        }
+        if (record.getTriglycerides() != null) {
+            existing.setTriglycerides(record.getTriglycerides());
+        }
+        if (record.getHeight() != null) {
+            existing.setHeight(record.getHeight());
+        }
+        if (record.getCholesterol() != null) {
+            existing.setCholesterol(record.getCholesterol());
+        }
+        if (record.getBmi() != null) {
+            existing.setBmi(record.getBmi());
+        }
+
+        if (record.getDate() != null) {
+            existing.setDate(record.getDate());
+        } else if (existing.getDate() == null) {
+            existing.setDate(java.time.LocalDateTime.now());
+        }
+
+        medicalRecordRepository.save(existing);
 
         return "redirect:/doctor/appointments";
     }
@@ -180,59 +325,7 @@ public class DoctorController {
         return "redirect:/doctor/appointments";
     }
 
-    // Reprogramar cita
-    @GetMapping("/appointments/{id}/reschedule")
-    public String rescheduleForm(@PathVariable Long id,
-                                 Authentication authentication,
-                                 Model model) {
-        Doctor doctor = getCurrentDoctor(authentication);
-        if (doctor == null) {
-            return "redirect:/login";
-        }
-
-        Appointment appointment = appointmentRepository.findById(id).orElse(null);
-        if (appointment == null || !appointment.getDoctor().getId().equals(doctor.getId())) {
-            return "redirect:/doctor/appointments";
-        }
-
-        model.addAttribute("appointment", appointment);
-        return "doctor/appointment_reschedule_form";
-    }
-
-    @PostMapping("/appointments/{id}/reschedule")
-    public String reschedule(@PathVariable Long id,
-                             @ModelAttribute Appointment form,
-                             Authentication authentication,
-                             Model model) {
-        Doctor doctor = getCurrentDoctor(authentication);
-        if (doctor == null) {
-            return "redirect:/login";
-        }
-
-        Appointment appointment = appointmentRepository.findById(id).orElse(null);
-        if (appointment == null || !appointment.getDoctor().getId().equals(doctor.getId())) {
-            return "redirect:/doctor/appointments";
-        }
-
-        boolean busy = appointmentRepository.existsByDoctorAndDateAndTimeAndStatusNot(
-                doctor,
-                form.getRescheduledDate(),
-                form.getRescheduledTime(),
-                AppointmentStatus.CANCELLED
-        );
-
-        if (busy) {
-            model.addAttribute("appointment", appointment);
-            model.addAttribute("errorMessage", "Ya existe una cita en esa nueva fecha y hora. Elige otro horario.");
-            return "doctor/appointment_reschedule_form";
-        }
-
-        appointment.setRescheduledDate(form.getRescheduledDate());
-        appointment.setRescheduledTime(form.getRescheduledTime());
-        appointment.setStatus(AppointmentStatus.RESCHEDULED);
-        appointmentRepository.save(appointment);
-        return "redirect:/doctor/appointments";
-    }
+    // Reprogramación deshabilitada por ahora; se mantiene solo crear, completar y marcar no-show
 
     private Doctor getCurrentDoctor(Authentication authentication) {
         if (authentication == null) {
@@ -244,5 +337,18 @@ public class DoctorController {
             return (Doctor) user;
         }
         return null;
+    }
+
+    // Horario base simple: slots cada 30 minutos de 09:00 a 17:00
+    private List<LocalTime> getDefaultTimeSlots() {
+        LocalTime start = LocalTime.of(9, 0);
+        LocalTime end = LocalTime.of(17, 0);
+        java.util.ArrayList<LocalTime> slots = new java.util.ArrayList<>();
+        LocalTime t = start;
+        while (!t.isAfter(end.minusMinutes(30))) {
+            slots.add(t);
+            t = t.plusMinutes(30);
+        }
+        return slots;
     }
 }
