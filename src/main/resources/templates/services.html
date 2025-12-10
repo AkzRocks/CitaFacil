@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <head th:replace="~{layout :: head}">
+    <title>Servicios</title>
+</head>
+
+<body>
+    <nav th:replace="~{layout :: navbar}"></nav>
+<div layout:fragment="content">
+
+    <main class="container mt-4">
+        <h2 class="mb-4 text-center">Nuestros Servicios Médicos</h2>
+
+        <div class="row g-4">
+
+            <!-- Medicina General -->
+            <div class="col-md-4">
+                <div class="card feature-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2966/2966486.png" 
+                        class="card-img-top p-4" alt="Medicina General">
+                    <div class="card-body">
+                        <h5 class="card-title">Medicina General</h5>
+                        <p class="card-text">Atención integral para diagnósticos y seguimientos clínicos generales.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pediatría -->
+            <div class="col-md-4">
+                <div class="card feature-card">
+                    <img src="https://img.icons8.com/color/96/baby.png" 
+                        class="card-img-top p-4" alt="Pediatría">
+                    <div class="card-body">
+                        <h5 class="card-title">Pediatría</h5>
+                        <p class="card-text">Cuidado especializado para niños, desde recién nacidos hasta adolescentes.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ginecología -->
+            <div class="col-md-4">
+                <div class="card feature-card">
+                    <img src="https://img.icons8.com/color/96/pregnant.png"
+                        class="card-img-top p-4" alt="Ginecología">
+                    <div class="card-body">
+                        <h5 class="card-title">Ginecología</h5>
+                        <p class="card-text">Salud de la mujer, revisiones preventivas y control reproductivo.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Odontología -->
+            <div class="col-md-4">
+                <div class="card feature-card">
+                    <img src="https://img.icons8.com/color/96/tooth.png"
+                        class="card-img-top p-4" alt="Odontología">
+                    <div class="card-body">
+                        <h5 class="card-title">Odontología</h5>
+                        <p class="card-text">Limpiezas, tratamientos dentales y cuidado completo de tu sonrisa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dermatología -->
+            <div class="col-md-4">
+                <div class="card feature-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3874/3874152.png"
+                        class="card-img-top p-4" alt="Dermatología">
+                    <div class="card-body">
+                        <h5 class="card-title">Dermatología</h5>
+                        <p class="card-text">Diagnóstico y tratamiento de enfermedades de la piel.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cardiología -->
+            <div class="col-md-4">
+                <div class="card feature-card">
+                    <img src="https://img.icons8.com/color/96/heart-with-pulse.png"
+                        class="card-img-top p-4" alt="Cardiología">
+                    <div class="card-body">
+                        <h5 class="card-title">Cardiología</h5>
+                        <p class="card-text">Cuidado del corazón con tecnología moderna y especialistas expertos.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Traumatología -->
+            <div class="col-md-4">
+                <div class="card feature-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2966/2966468.png"
+                        class="card-img-top p-4" alt="Traumatología">
+                    <div class="card-body">
+                        <h5 class="card-title">Traumatología</h5>
+                        <p class="card-text">Diagnóstico y tratamiento de lesiones óseas y musculares.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Psicología -->
+            <div class="col-md-4">
+                <div class="card feature-card">
+                    <img src="https://img.icons8.com/color/96/brain.png"
+                        class="card-img-top p-4" alt="Psicología">
+                    <div class="card-body">
+                        <h5 class="card-title">Psicología</h5>
+                        <p class="card-text">Apoyo emocional, terapias y orientación psicológica profesional.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nutrición -->
+            <div class="col-md-4">
+                <div class="card feature-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2965/2965567.png"
+                        class="card-img-top p-4" alt="Nutrición">
+                    <div class="card-body">
+                        <h5 class="card-title">Nutrición</h5>
+                        <p class="card-text">Planes alimenticios personalizados y control nutricional.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Laboratorio Clínico -->
+            <div class="col-md-4">
+                <div class="card feature-card">
+                    <img src="https://img.icons8.com/color/96/test-tube.png"
+                        class="card-img-top p-4" alt="Laboratorio Clínico">
+                    <div class="card-body">
+                        <h5 class="card-title">Laboratorio Clínico</h5>
+                        <p class="card-text">Pruebas de laboratorio rápidas, confiables y seguras.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<br>><br>
+    <div th:replace="~{layout :: footer}"></div>
+</body>
+</html>
