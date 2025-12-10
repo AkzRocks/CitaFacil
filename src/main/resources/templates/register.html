@@ -31,56 +31,57 @@
 </head>
 
 <body>
-    <div class="register-container">
-        <div class="register-card">
+    <main>
+        <div class="register-container">
+            <div class="register-card">
 
-            <h1>Registro de Paciente</h1>
+                <h1>Registro de Paciente</h1>
 
-            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+                <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
-            <form th:action="@{/register}" th:object="${patient}" method="post">
+                <form th:action="@{/register}" th:object="${patient}" method="post">
 
-                <div class="mb-3">
-                    <label>DNI</label>
-                    <input type="text" class="form-control" th:field="*{dni}" required>
-                </div>
+                    <div class="mb-3">
+                        <label>DNI</label>
+                        <input type="text" class="form-control" th:field="*{dni}" required>
+                    </div>
 
-                <div class="mb-3">
-                    <label>Nombre Completo</label>
-                    <input type="text" class="form-control" th:field="*{fullName}" required>
-                </div>
+                    <div class="mb-3">
+                        <label>Nombre Completo</label>
+                        <input type="text" class="form-control" th:field="*{fullName}" required>
+                    </div>
 
-                <div class="mb-3">
-                    <label>Usuario</label>
-                    <input type="text" class="form-control" th:field="*{username}" required>
-                </div>
+                    <div class="mb-3">
+                        <label>Usuario</label>
+                        <input type="text" class="form-control" th:field="*{username}" required>
+                    </div>
 
-                <div class="mb-3">
-                    <label>Contraseña</label>
-                    <input type="password" class="form-control" name="rawPassword" required>
-                </div>
+                    <div class="mb-3">
+                        <label>Contraseña</label>
+                        <input type="password" class="form-control" name="rawPassword" required>
+                    </div>
 
-                <div class="mb-3">
-                    <label>Fecha de Nacimiento</label>
-                    <input type="date" class="form-control" id="birthDate" th:field="*{birthDate}"
-                        onchange="checkAge()" required>
-                </div>
+                    <div class="mb-3">
+                        <label>Fecha de Nacimiento</label>
+                        <input type="date" class="form-control" id="birthDate" th:field="*{birthDate}"
+                            onchange="checkAge()" required>
+                    </div>
 
-                <div class="mb-3" id="parentDniDiv">
-                    <label>DNI del Padre/Tutor (Menor de edad)</label>
-                    <input type="text" class="form-control" id="parentDni" th:field="*{parentDni}">
-                </div>
+                    <div class="mb-3" id="parentDniDiv">
+                        <label>DNI del Padre/Tutor (Menor de edad)</label>
+                        <input type="text" class="form-control" id="parentDni" th:field="*{parentDni}">
+                    </div>
 
-                <div class="mb-3">
-                    <label>Número de Seguro</label>
-                    <input type="text" class="form-control" th:field="*{insuranceNumber}">
-                </div>
+                    <div class="mb-3">
+                        <label>Número de Seguro</label>
+                        <input type="text" class="form-control" th:field="*{insuranceNumber}">
+                    </div>
 
-                <button type="submit" class="btn btn-register">Registrarse</button>
-            </form>
-
+                    <button type="submit" class="btn btn-register">Registrarse</button>
+                </form>
+            </div>
         </div>
-    </div>
+    </main>
 </body>
 
 </html>

@@ -1,24 +1,24 @@
 package com.medicina.citafacil.controller;
 
-import com.medicina.citafacil.model.Appointment;
-import com.medicina.citafacil.model.MedicalRecord;
-import com.medicina.citafacil.model.Patient;
-import com.medicina.citafacil.model.Doctor;
-import com.medicina.citafacil.repository.AppointmentRepository;
-import com.medicina.citafacil.repository.MedicalRecordRepository;
-import com.medicina.citafacil.repository.DoctorRepository;
-import com.medicina.citafacil.service.UserService;
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.time.LocalDate;
-import java.util.List;
+import com.medicina.citafacil.model.Appointment;
+import com.medicina.citafacil.model.MedicalRecord;
+import com.medicina.citafacil.model.Patient;
+import com.medicina.citafacil.repository.AppointmentRepository;
+import com.medicina.citafacil.repository.DoctorRepository;
+import com.medicina.citafacil.repository.MedicalRecordRepository;
+import com.medicina.citafacil.service.UserService;
 
 @Controller
 @RequestMapping("/patient")
